@@ -10,7 +10,7 @@ object Lecture_1_5 {
     else sqrtIter(improveGuess(guess, x), x)
 
   def isGoodEnough(guess:Double, x: Double): Boolean =
-    abs(guess * guess - x) < 0.001
+    abs(guess * guess - x) / x < 0.001
 
   def improveGuess(guess:Double, x: Double): Double =
     (guess + x / guess) / 2
@@ -19,7 +19,8 @@ object Lecture_1_5 {
 
   sqrt(2.0)
   sqrt(9)
-
+  sqrt(1e60)
+  sqrt(1e-60)
 }
 
 
