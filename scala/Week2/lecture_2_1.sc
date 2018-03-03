@@ -1,4 +1,4 @@
-
+// Hih order functions
 // sum of f(integers) between a and b
 def sum(f: Int => Int)(a: Int, b: Int): Int = {
   def loop(a: Int, acc: Int): Int = {
@@ -8,5 +8,5 @@ def sum(f: Int => Int)(a: Int, b: Int): Int = {
   loop(a, 0)
 }
 
-sum(x => x * x)(3, 5) //50
+sum(x => x * x)(3, 5) // 50
 sum(x => x * x * x)(1, 100)
