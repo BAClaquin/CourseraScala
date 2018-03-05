@@ -1,4 +1,4 @@
-// Hih order functions
+// Hih order functions (take fct as a parameter or return fct)
 // sum of f(integers) between a and b
 def sum(f: Int => Int)(a: Int, b: Int): Int = {
   def loop(a: Int, acc: Int): Int = {

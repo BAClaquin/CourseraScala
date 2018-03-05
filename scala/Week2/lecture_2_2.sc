@@ -9,6 +9,7 @@ def product(f: Int => Int)(a: Int, b: Int): Int =
 // using product
 def factorial(n: Int): Int = product(x => x)(1, n)
 
+// quite like a mapreduce
 def generalFunction(inital: Int, g: (Int, Int) => Int)(f:Int => Int)(a: Int, b: Int): Int =
   if (a > b) inital else g(f(a), generalFunction(inital,g)(f)(a + 1, b))
 
