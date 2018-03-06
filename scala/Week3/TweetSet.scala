@@ -42,7 +42,7 @@ abstract class TweetSet {
    * and be implemented in the subclasses?
    */
     def filter(p: Tweet => Boolean): TweetSet = filterAcc(p,new Empty())
-  
+
   /**
    * This is a helper method for `filter` that propagetes the accumulated tweets.
    */
@@ -140,18 +140,16 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
 
   def mostRetweeted = {
     val leftMax = if (left.isEmpty) elem else left.mostRetweeted
-    val rightMax = if (left.isEmpty) elem else right.mostRetweeted
+    val rightMax = if (right.isEmpty) elem else right.mostRetweeted
     if (elem.retweets > leftMax.retweets && elem.retweets > rightMax.retweets) elem
     else if (leftMax.retweets > rightMax.retweets) leftMax
     else rightMax
   }
 
-
-
-
-  def union(that: TweetSet): TweetSet =
-    (left union right) union that incl elem
-
+  def union(that: TweetSet): TweetSet = {
+    (left union (right union that)).incl(elem)
+  }
+  
   /**
    * The following methods are already implemented
    */
@@ -178,7 +176,7 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
     right.foreach(f)
   }
 
-  def descendingByRetweet: TweetList = new Cons(mostRetweeted,this.remove((mostRetweeted)).descendingByRetweet)
+  def descendingByRetweet: TweetList = new Cons(mostRetweeted,this.remove(mostRetweeted).descendingByRetweet)
 }
 
 trait TweetList {
@@ -209,12 +207,12 @@ object GoogleVsApple {
 
   lazy val googleTweets: TweetSet = TweetReader.allTweets.filter((tweet) => google.exists((word) => tweet.text.contains(word)))
   lazy val appleTweets: TweetSet = TweetReader.allTweets.filter((tweet) => apple.exists((word) => tweet.text.contains(word)))
-  
+
   /**
    * A list of all tweets mentioning a keyword from either apple or google,
    * sorted by the number of retweets.
    */
-  lazy val trending: TweetList = googleTweets.union(appleTweets).descendingByRetweet
+  lazy val trending: TweetList = googleTweets.union(appleTweets) descendingByRetweet
   }
 
 object Main extends App {
