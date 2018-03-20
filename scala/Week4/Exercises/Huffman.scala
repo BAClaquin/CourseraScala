@@ -34,7 +34,7 @@ object Huffman {
   }
 
   def makeCodeTree(left: CodeTree, right: CodeTree) =
-    Fork(left, right, chars(left) ::: chars(right), weight(left) + weight(right)*2)
+    Fork(left, right, chars(left) ::: chars(right), weight(left) + weight(right))
 
 
 
@@ -139,7 +139,10 @@ object Huffman {
     * If `trees` is a list of less than two elements, that list should be returned
     * unchanged.
     */
-  def combine(trees: List[CodeTree]): List[CodeTree] = ???
+  def combine(trees: List[CodeTree]): List[CodeTree] = trees match {
+    case left :: right :: tail => makeCodeTree(left, right) :: tail
+    case _ => trees
+  }
 
   /**
     * This function will be called in the following way:
@@ -158,7 +161,12 @@ object Huffman {
     *    the example invocation. Also define the return type of the `until` function.
     *  - try to find sensible parameter names for `xxx`, `yyy` and `zzz`.
     */
-  //def until(xxx: ???, yyy: ???)(zzz: ???): ??? = ???
+  def until(endCondition: (List[CodeTree]) => Boolean, action: (List[CodeTree]) => List[CodeTree])
+           (listOfCodeTree: List[CodeTree]): CodeTree =
+    if(singleton(listOfCodeTree)) listOfCodeTree(0)
+    else until(endCondition,action)(combine(listOfCodeTree))
+
+
 
   /**
     * This function creates a code tree which is optimal to encode the text `chars`.
@@ -166,8 +174,8 @@ object Huffman {
     * The parameter `chars` is an arbitrary text. This function extracts the character
     * frequencies from that text and creates a code tree based on them.
     */
-  def createCodeTree(chars: List[Char]): CodeTree = ???
-
+  def createCodeTree(chars: List[Char]): CodeTree =
+    until(singleton,combine)(makeOrderedLeafList(times(chars)))
 
   // Part 3: Decoding
 
@@ -177,7 +185,21 @@ object Huffman {
     * This function decodes the bit sequence `bits` using the code tree `tree` and returns
     * the resulting list of characters.
     */
-  def decode(tree: CodeTree, bits: List[Bit]): List[Char] = ???
+  def decode(tree: CodeTree, bits: List[Bit]): List[Char] = {
+    def loop(tree: CodeTree, bits: List[Bit], list: List[Char]): List[Char] = bits match {
+      case head :: tail => tree match {
+        case Leaf(character, _) => loop(tree, tail, character :: list)
+        case Fork(left,right,_,_) => {
+          if (head == 0) loop(left, tail, list)
+          else loop(right, tail, list)
+        }
+      }
+      case _ => list
+    }
+
+    loop(tree, bits, List[Char]())
+  }
+
 
   /**
     * A Huffman coding tree for the French language.

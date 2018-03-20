@@ -19,13 +19,13 @@ object Main extends App{
 
     assert(string2Chars("hello, world") == List('h', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd'))
 
-    println(makeOrderedLeafList(List(('t', 2), ('e', 1), ('x', 3))))
-    println(List(Leaf('e',1), Leaf('t',2), Leaf('x',3)))
+
 
     assert(makeOrderedLeafList(List(('t', 2), ('e', 1), ('x', 3))) == List(Leaf('e',1), Leaf('t',2), Leaf('x',3)))
 
-
     val leaflist = List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 4))
+    println(combine(leaflist))
+    println(List(Fork(Leaf('e',1),Leaf('t',2),List('e', 't'),3), Leaf('x',4)))
     assert(combine(leaflist) == List(Fork(Leaf('e',1),Leaf('t',2),List('e', 't'),3), Leaf('x',4)))
 
 
