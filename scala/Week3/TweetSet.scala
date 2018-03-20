@@ -269,8 +269,7 @@ object Main extends App {
       val emptySet = new Empty
       assert(emptySet.descendingByRetweet.isEmpty)
     }
-    println("lulz")
+
     // Print the trending tweets
     GoogleVsApple.trending foreach println
-    println("palulz")
 }
