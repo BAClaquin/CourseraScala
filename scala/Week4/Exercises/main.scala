@@ -24,12 +24,15 @@ object Main extends App{
     assert(makeOrderedLeafList(List(('t', 2), ('e', 1), ('x', 3))) == List(Leaf('e',1), Leaf('t',2), Leaf('x',3)))
 
     val leaflist = List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 4))
-    println(combine(leaflist))
-    println(List(Fork(Leaf('e',1),Leaf('t',2),List('e', 't'),3), Leaf('x',4)))
+    //println(combine(leaflist))
+    //println(List(Fork(Leaf('e',1),Leaf('t',2),List('e', 't'),3), Leaf('x',4)))
     assert(combine(leaflist) == List(Fork(Leaf('e',1),Leaf('t',2),List('e', 't'),3), Leaf('x',4)))
 
 
     new TestTrees {
+      println(t1)
+      println(encode(t1)("ab".toList))
+      println(decode(t1, encode(t1)("ab".toList)))
       assert(decode(t1, encode(t1)("ab".toList)) == "ab".toList)
     }
 }

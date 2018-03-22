@@ -188,7 +188,7 @@ object Huffman {
   def decode(tree: CodeTree, bits: List[Bit]): List[Char] = {
     def loop(tree: CodeTree, bits: List[Bit], list: List[Char]): List[Char] = bits match {
       case head :: tail => tree match {
-        case Leaf(character, _) => loop(tree, tail, character :: list)
+        case Leaf(character, _) => loop(tree, bits, character :: list)
         case Fork(left,right,_,_) => {
           if (head == 0) loop(left, tail, list)
           else loop(right, tail, list)
@@ -217,7 +217,7 @@ object Huffman {
   /**
     * Write a function that returns the decoded secret
     */
-  def decodedSecret: List[Char] = ???
+  def decodedSecret: List[Char] = decode(frenchCode, secret)
 
 
   // Part 4a: Encoding using Huffman tree
@@ -226,7 +226,24 @@ object Huffman {
     * This function encodes `text` using the code tree `tree`
     * into a sequence of bits.
     */
-  def encode(tree: CodeTree)(text: List[Char]): List[Bit] = ???
+  def encode(tree: CodeTree)(text: List[Char]): List[Bit] = tree match {
+    case Leaf(_,_) => throw new Exception("Forkless tree exception")
+    case Fork(left,right,_,_) => {
+      def loop(subTree: CodeTree, text: List[Char], bit: Bit): List[Bit] = text match {
+        case head::tail => {
+          subTree match {
+            case Fork(l,r,chars,_) => {
+              if(chars contains text(0)) bit :: (loop(l, text, 0) ::: loop(r, text, 1))
+              else List[Bit]()
+            }
+            case Leaf(char,_) => if (char == text(0)) bit :: encode(tree)(tail) else List[Bit]()
+          }
+        }
+        case _ => List[Bit]()
+      }
+      loop(left, text, 0) ::: loop(right, text, 1)
+    }
+  }
 
   // Part 4b: Encoding using code table
 
