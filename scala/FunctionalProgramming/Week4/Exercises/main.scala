@@ -1,4 +1,4 @@
-package Week4.Exercises
+package FunctionalProgramming.Week4.Exercises
 import Huffman._
 
 object Main extends App{

@@ -1,4 +1,4 @@
-package Week3
+package FunctionalProgramming.Week3
 
 // real tweet data, collected on Oct 1
 object TweetData {

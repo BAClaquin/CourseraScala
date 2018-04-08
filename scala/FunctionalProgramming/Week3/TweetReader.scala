@@ -1,4 +1,4 @@
-package Week3
+package FunctionalProgramming.Week3
 import scala.util.parsing.json._
 
 object TweetReader {

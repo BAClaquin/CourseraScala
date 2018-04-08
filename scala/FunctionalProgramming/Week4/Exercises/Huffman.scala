@@ -1,4 +1,4 @@
-package Week4.Exercises
+package FunctionalProgramming.Week4.Exercises
 
 /**
   * Assignment 4: Huffman coding

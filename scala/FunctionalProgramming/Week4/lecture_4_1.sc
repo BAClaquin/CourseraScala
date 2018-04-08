@@ -1,4 +1,4 @@
-package Week4
+package FunctionalProgramming.Week4
 
 abstract class Nat {
   def isZero: Boolean

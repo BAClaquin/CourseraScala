@@ -1,4 +1,4 @@
-package Week1
+package FunctionalProgramming.Week1
 
 import scala.annotation.tailrec
 

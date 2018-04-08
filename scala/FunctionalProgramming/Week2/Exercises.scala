@@ -1,4 +1,4 @@
-package Week2
+package FunctionalProgramming.Week2
 
 
 /**
